@@ -24,10 +24,21 @@ app.get('/', (req, res) => {
   res.end('HarveyNet ownership server.');
 });
 
+/**
+ * User machines endpoint.
+ */
 app.get('/me/machines', (req, res) => {
   const { username } = req.query;
-  const ownership = ownershipFixture.find(x => x.username === username);
-  const { machines } = ownership;
+  let machines = [];
+
+  if (username) {
+    const ownership = ownershipFixture
+      .find(x => x.username === username);
+    if (ownership) {
+      machines = ownership.machines;
+    }
+  }
+  
   res.json(machines);
 });
 
