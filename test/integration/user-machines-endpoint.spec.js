@@ -1,22 +1,7 @@
 const supertest = require('supertest');
 
 const app = require('../../src/app');
-
-const ownershipFixture = [
-  {
-    username: 'alice',
-    machines: [
-      { id: 'machine1' },
-      { id: 'machine2' },
-    ]
-  },
-  {
-    username: 'bob',
-    machines: [
-      { id: 'machine3' },
-    ],
-  },
-];
+const ownershipFixture = require('../fixtures/ownership');
 
 describe('User Machines Endpoint', () => {
   it('should return existing user\'s machines', done => {

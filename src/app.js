@@ -1,25 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 
+const ownershipFixture = require('../test/fixtures/ownership');
+
 const app = express();
 app.use(cors());
 
-const ownershipFixture = [
-  {
-    username: 'alice',
-    machines: [
-      { id: 'machine1' },
-      { id: 'machine2' },
-    ]
-  },
-  {
-    username: 'bob',
-    machines: [
-      { id: 'machine3' },
-    ],
-  },
-];
-
+/**
+ * Index endpoint.
+ */
 app.get('/', (req, res) => {
   res.end('HarveyNet ownership server.');
 });
