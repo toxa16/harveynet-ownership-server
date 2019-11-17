@@ -10,7 +10,7 @@ app.use(cors());
  * Index endpoint.
  */
 app.get('/', (req, res) => {
-  res.end('HarveyNet ownership server.');
+  res.end('HarveyNet ownership server v0.0.1');
 });
 
 /**
