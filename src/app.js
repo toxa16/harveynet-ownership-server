@@ -28,7 +28,7 @@ app.get('/me/machines', (req, res) => {
     }
   }
   
-  res.json(machines);
+  res.json({ data: machines });
 });
 
 module.exports = app;

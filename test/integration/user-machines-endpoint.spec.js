@@ -10,7 +10,7 @@ describe('User Machines Endpoint', () => {
       .end((err, res) => {
         if (err) return done(err);
         const expectedMachines = ownershipFixture[0].machines;
-        expect(res.body).toStrictEqual(expectedMachines);
+        expect(res.body).toStrictEqual({ data: expectedMachines });
         done();
       });
   });
@@ -20,7 +20,7 @@ describe('User Machines Endpoint', () => {
       .get('/me/machines?username=charlie')
       .end((err, res) => {
         if (err) return done(err);
-        expect(res.body).toEqual([]);
+        expect(res.body).toEqual({ data: [] });
         done();
       });
   });
@@ -30,7 +30,7 @@ describe('User Machines Endpoint', () => {
       .get('/me/machines')
       .end((err, res) => {
         if (err) return done(err);
-        expect(res.body).toEqual([]);
+        expect(res.body).toEqual({ data: [] });
         done();
       });
   });
