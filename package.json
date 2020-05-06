@@ -1,20 +1,21 @@
 {
   "name": "harveynet-ownership-server",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./src/index.js",
-    "start": "node ./src/index.js",
+    "start": "nodemon ./src/index.js",
+    "serve": "node ./src/index.js",
     "test:integration": "jest --watch",
     "test": "jest"
   },
   "dependencies": {
+    "auth0": "^2.25.1",
     "cors": "^2.8.5",
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "jest": "^24.9.0",
-    "nodemon": "^1.19.4",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.3",
     "supertest": "^4.0.2"
   }
 }
