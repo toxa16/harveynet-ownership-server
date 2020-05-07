@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./src/index.js",
+    "start": "NODE_ENV=development nodemon ./src/index.js",
     "serve": "node ./src/index.js",
     "test:integration": "jest --watch",
     "test": "jest"

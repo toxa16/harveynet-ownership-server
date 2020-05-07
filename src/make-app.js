@@ -9,6 +9,9 @@ const machines0 = [
   {
     machineId: 'machine2',
   },
+  {
+    machineId: 'machine3',
+  },
 ];
 
 
@@ -16,13 +19,20 @@ function makeApp(authClient) {
   const app = express();
   app.use(cors());
 
+  app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(req.method, req.url);
+    }
+    next();
+  });
+
 
   app.get('/', (req, res) => {
     res.end('HarveyNet ownership server v0.1.0');
   });
 
 
-  app.get('/me/machines', async (req, res, next) => {
+  /*app.get('/me/machines', async (req, res, next) => {
     const { authorization } = req.headers;
     if (!authorization) {
       res.status(401);
@@ -43,7 +53,7 @@ function makeApp(authClient) {
       }
       next(err);
     }
-  });
+  });*/
   app.get('/me/machines', (req, res) => {
     res.json(machines0);
   });
