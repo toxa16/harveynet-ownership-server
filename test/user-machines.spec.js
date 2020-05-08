@@ -16,16 +16,17 @@ const testMachines = [
   },
 ];
 
+// stubs
+const authManager = {
+  authenticateUserByHeader: async header => ({}),
+}
+const machineManager = {
+  getUserMachines: async userId => testMachines,
+};
+
 
 describe('User Machines Endpoint "/me/machines"', () => {
   it('should return machines from the `machineManager`', done => {
-    // stubs
-    const authManager = {
-      authenticateUserByHeader: async header => {},
-    }
-    const machineManager = {
-      getUserMachines: async userId => testMachines,
-    };
     // SUT
     const app = makeApp({ authManager, machineManager });
     // test
@@ -36,10 +37,7 @@ describe('User Machines Endpoint "/me/machines"', () => {
   });
 
   it('should respond with 500 on `machineManager` error', done => {
-    // stubs
-    const authManager = {
-      authenticateUserByHeader: async header => {},
-    }
+    // stub
     const machineManager = {
       getUserMachines: async userId => { throw new Error() },
     };
@@ -58,9 +56,6 @@ describe('User Machines Endpoint "/me/machines"', () => {
       authenticateUserByHeader: async header => {
         throw new Unauthorized();
       },
-    };
-    const machineManager = {
-      getUserMachines: async userId => {},
     };
     // SUT
     const app = makeApp({ authManager, machineManager });
