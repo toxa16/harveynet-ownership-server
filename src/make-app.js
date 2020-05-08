@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 
+const Unauthorized = require('./errors/unauthorized');
+
 
 const machines0 = [
   {
@@ -15,7 +17,7 @@ const machines0 = [
 ];
 
 
-function makeApp({ authClient, machineManager }) {
+function makeApp({ authManager, machineManager }) {
   const app = express();
   app.use(cors());
 
@@ -57,11 +59,30 @@ function makeApp({ authClient, machineManager }) {
   });*/
   app.get('/me/machines', async (req, res, next) => {
     try {
+      const header = req.headers.authorization;
+      const userInfo = await authManager.authenticateUserByHeader(header);
+      next();
+    } catch(err) {
+      next(err);  // to custom error handler
+    }
+  });
+  app.get('/me/machines', async (req, res, next) => {
+    try {
       const machines = await machineManager.getUserMachines();
       res.json(machines);
     } catch(err) {
-      next(err);  // to default error handler
+      next(err);  // to custom [default] error handler
     }
+  });
+
+
+  app.use((err, req, res, next) => {
+    if (err instanceof Unauthorized) {
+      res.status(401);
+      next(err);  // to default error handler
+      return;
+    }
+    next(err);  // to default error handler
   });
 
 

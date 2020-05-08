@@ -1,6 +1,7 @@
 const supertest = require('supertest');
 
 const makeApp = require('../src/make-app');
+const Unauthorized = require('../src/errors/unauthorized');
 
 
 // fixture
@@ -18,12 +19,15 @@ const testMachines = [
 
 describe('User Machines Endpoint "/me/machines"', () => {
   it('should return machines from the `machineManager`', done => {
-    // stub
+    // stubs
+    const authManager = {
+      authenticateUserByHeader: async header => {},
+    }
     const machineManager = {
       getUserMachines: async userId => testMachines,
     };
     // SUT
-    const app = makeApp({ machineManager });
+    const app = makeApp({ authManager, machineManager });
     // test
     supertest(app)
       .get('/me/machines')
@@ -32,16 +36,38 @@ describe('User Machines Endpoint "/me/machines"', () => {
   });
 
   it('should respond with 500 on `machineManager` error', done => {
-    // stub
+    // stubs
+    const authManager = {
+      authenticateUserByHeader: async header => {},
+    }
     const machineManager = {
       getUserMachines: async userId => { throw new Error() },
     };
     // SUT
-    const app = makeApp({ machineManager });
+    const app = makeApp({ authManager, machineManager });
     // test
     supertest(app)
       .get('/me/machines')
       .expect(500)
+      .end(done);
+  });
+
+  it('should respond with 401 on `authManager` `Unauthorized` error', done => {
+    // stub
+    const authManager = {
+      authenticateUserByHeader: async header => {
+        throw new Unauthorized();
+      },
+    };
+    const machineManager = {
+      getUserMachines: async userId => {},
+    };
+    // SUT
+    const app = makeApp({ authManager, machineManager });
+    // test
+    supertest(app)
+      .get('/me/machines')
+      .expect(401)
       .end(done);
   });
 });
