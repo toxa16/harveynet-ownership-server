@@ -57,7 +57,8 @@ function makeApp({ authManager, machineManager }) {
   app.get('/me/machines', async (req, res, next) => {
     try {
       //console.log(req.userInfo)
-      const machines = await machineManager.getUserMachines();
+      const { sub } = req.userInfo;
+      const machines = await machineManager.getUserMachines(sub);
       res.json(machines);
     } catch(err) {
       next(err);

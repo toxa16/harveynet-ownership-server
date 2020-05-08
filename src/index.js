@@ -4,7 +4,7 @@ const auth0 = require('auth0');
 require('dotenv').config();   // loading env vars from the ".env" file
 
 const AuthManager = require('./managers/auth-manager');
-const MachineManager = require('./machine-manager');
+const MachineManager = require('./managers/machine-manager');
 const makeApp = require('./make-app');
 
 
@@ -36,9 +36,9 @@ MongoClient.connect(dbUri, {
         console.log(data);
       });
 
-    const machineManager = new MachineManager(col);  // machine manager
-    const app = makeApp({ authManager, machineManager });   // app
-    const server = new Server(app);   // server
+    const machineManager = new MachineManager(col);       // machine manager
+    const app = makeApp({ authManager, machineManager }); // app
+    const server = new Server(app);                       // server
     const port = process.env.PORT;
     // starting server...
     server.listen(port, () => {
