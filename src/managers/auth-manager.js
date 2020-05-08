@@ -22,7 +22,7 @@ class AuthManager {
     }
     return this.auth0client.users.getInfo(token)
       .catch(err => {
-        throw new Unauthorized();
+        throw new Unauthorized('Authentication failed.');
       });
   }
 }
