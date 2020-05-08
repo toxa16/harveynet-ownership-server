@@ -14,9 +14,13 @@ class AuthManager {
    */
   authenticateUserByHeader(header) {
     if (!header) {
-      throw new Unauthorized();
+      throw new Unauthorized('No Authorization header.');
     }
-    return this.auth0client.users.getInfo()
+    const token = header.split('Bearer ')[1];
+    if (!token) {
+      throw new Unauthorized('Only Bearer tokens are supported.');
+    }
+    return this.auth0client.users.getInfo(token)
       .catch(err => {
         throw new Unauthorized();
       });
