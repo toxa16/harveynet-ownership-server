@@ -17,33 +17,13 @@ function makeApp({ authManager, machineManager }) {
   });
 
 
+  // GET /
   app.get('/', (req, res) => {
     res.end('HarveyNet ownership server v0.1.0');
   });
 
 
-  /*app.get('/me/machines', async (req, res, next) => {
-    const { authorization } = req.headers;
-    if (!authorization) {
-      res.status(401);
-      return next(new Error('Unauthorized: No Authorization header.'));
-    }
-    const authHeaderParts = authorization.split('Bearer ');
-    const token = authHeaderParts[1];
-    if (!token) {
-      res.status(401);
-      return next(new Error('Unauthorized: Only Bearer token type is supported.'));
-    }
-    try {
-      const userInfo = await authClient.users.getInfo(token);
-      next();
-    } catch(err) {
-      if (err.message.match(/401/)) {
-        res.status(401);
-      }
-      next(err);
-    }
-  });*/
+  // GET /me/machines
   app.get('/me/machines', async (req, res, next) => {
     try {
       const header = req.headers.authorization;

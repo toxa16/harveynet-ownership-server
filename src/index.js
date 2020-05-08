@@ -29,13 +29,6 @@ MongoClient.connect(dbUri, {
   .then(client => {
     const db = client.db(dbName);
     const col = db.collection('machines');
-
-    // TODO: remove
-    col.find().toArray()
-      .then(data => {
-        console.log(data);
-      });
-
     const machineManager = new MachineManager(col);       // machine manager
     const app = makeApp({ authManager, machineManager }); // app
     const server = new Server(app);                       // server
