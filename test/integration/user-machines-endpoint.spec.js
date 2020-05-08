@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const app = require('../../src/app');
 const ownershipFixture = require('../fixtures/ownership');
 
-describe('User Machines Endpoint', () => {
+describe.skip('User Machines Endpoint', () => {
   it('should return existing user\'s machines', done => {
     supertest(app)
       .get('/me/machines?username=alice')

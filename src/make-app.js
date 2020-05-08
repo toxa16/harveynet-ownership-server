@@ -15,7 +15,7 @@ const machines0 = [
 ];
 
 
-function makeApp(authClient) {
+function makeApp({ authClient, machineManager }) {
   const app = express();
   app.use(cors());
 
@@ -54,8 +54,13 @@ function makeApp(authClient) {
       next(err);
     }
   });*/
-  app.get('/me/machines', (req, res) => {
-    res.json(machines0);
+  app.get('/me/machines', async (req, res, next) => {
+    try {
+      const machines = await machineManager.getUserMachines();
+      res.json(machines);
+    } catch(err) {
+      next(err);
+    }
   });
 
 
