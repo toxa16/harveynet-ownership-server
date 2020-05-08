@@ -10,8 +10,11 @@ const machines0 = [
   },
 ];
 
+
 class MachineManager {
   getUserMachines = async userId => {
     return machines0;
   }
 }
+
+module.exports = MachineManager;

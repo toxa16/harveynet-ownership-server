@@ -19,6 +19,7 @@ function makeApp({ authClient, machineManager }) {
   const app = express();
   app.use(cors());
 
+  // logging (dev only)
   app.use((req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
       console.log(req.method, req.url);
@@ -59,7 +60,7 @@ function makeApp({ authClient, machineManager }) {
       const machines = await machineManager.getUserMachines();
       res.json(machines);
     } catch(err) {
-      next(err);
+      next(err);  // to default error handler
     }
   });
 
