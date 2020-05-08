@@ -9,14 +9,17 @@ class AuthManager {
   /**
    * Authenticates user by Bearer token from `Authorization` header.
    * @param {string} header request `Authorization` header
-   * @returns {object} user info
+   * @returns {Promise<object>} user info
    * @throws {Unauthorized}
    */
   authenticateUserByHeader(header) {
     if (!header) {
       throw new Unauthorized();
     }
-    return this.auth0client.users.getInfo();
+    return this.auth0client.users.getInfo()
+      .catch(err => {
+        throw new Unauthorized();
+      });
   }
 }
 
