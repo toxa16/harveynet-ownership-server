@@ -12,6 +12,8 @@ const machines0 = [
 
 
 class MachineManager {
+  constructor(machinesCollection) {}
+  
   getUserMachines = async userId => {
     return machines0;
   }
