@@ -90,7 +90,7 @@ describe('Admin Router "/admin/*"', () => {
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
-          expect(spy).toHaveBeenCalledWith(userId, machineId);
+          expect(spy).toHaveBeenCalledWith({ userId, machineId });
           done();
         });
     });
