@@ -2,6 +2,14 @@ const AuthManager = require('./auth-manager');
 const Unauthorized = require('../errors/unauthorized');
 
 
+// utility
+function composeBasicHeader(username, password) {
+  const creds = `${username}:${password}`;
+  const token = Buffer.from(creds, 'utf-8').toString('base64');
+  return `Basic ${token}`;
+}
+
+
 // fixture
 const testUserInfo = {
   email: 'test@email.com',
@@ -62,6 +70,57 @@ describe('AuthManager', () => {
           authManager.authenticateUserByHeader(nonBearerHeader);
         }).toThrow(Unauthorized);
       })
+    });
+  });
+
+  describe('authenticateAdmin()', () => {
+    describe('when to `authHeader` is set', () => {
+      it('should throw `Unauthorized`', () => {
+        const authManager = new AuthManager({});
+        expect(() => {
+          authManager.authenticateAdmin();
+        }).toThrow(Unauthorized);
+      });
+    });
+
+    describe('when `authHeader` is not a Basic token', () => {
+      it('should throw `Unauthorized`', () => {
+        const authHeader = 'Bearer TEST_TOKEN';
+        const authManager = new AuthManager({});
+        expect(() => {
+          authManager.authenticateAdmin(authHeader);
+        }).toThrow(Unauthorized);
+      });
+    });
+
+    describe('on admin credentials othen than "admin:admin"', () => {
+      it('should throw `Unauthorized`', () => {
+        // credentials & auth header
+        const username = 'admin';
+        const password = 'INVALID_PASSWORD';
+        const authHeader = composeBasicHeader(username, password);
+        // SUT
+        const authManager = new AuthManager({});
+        // test
+        expect(() => {
+          authManager.authenticateAdmin(authHeader);
+        }).toThrow(Unauthorized);
+      });
+    });
+
+    describe('on admin credentials "admin:admin" (valid)', () => {
+      it('should not throw any error', () => {
+        // credentials & auth header
+        const username = 'admin';
+        const password = 'admin';
+        const authHeader = composeBasicHeader(username, password);
+        // SUT
+        const authManager = new AuthManager({});
+        // test
+        expect(() => {
+          authManager.authenticateAdmin(authHeader);
+        }).not.toThrow();
+      });
     });
   });
 });

@@ -1,13 +1,33 @@
 const Unauthorized = require('../errors/unauthorized');
 
 
+// valid admin credentials
+const adminUsername = 'admin';
+const adminPassword = 'admin';
+
+
 class AuthManager {
   constructor(auth0client) {
     this.auth0client = auth0client;
   }
 
+  /**
+   * Authenticates admin by Basic scheme.
+   * Valid admin credentials are HARD-CODED.
+   * @param {string} authHeader 
+   */
   authenticateAdmin(authHeader) {
-    //throw new Unauthorized();
+    if (!authHeader) {
+      throw new Unauthorized();
+    }
+    const token = authHeader.split('Basic ')[1];
+    if (!token) {
+      throw new Unauthorized();
+    }
+    const credStr = Buffer.from(token, 'base64').toString('utf-8');
+    if (credStr !== `${adminUsername}:${adminPassword}`) {
+      throw new Unauthorized();
+    }
   }
 
   /**
