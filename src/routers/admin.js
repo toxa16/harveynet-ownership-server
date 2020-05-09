@@ -6,7 +6,7 @@ const router = express.Router();
 // authentication
 router.use((req, res, next) => {
   try {
-    req.authManager.authenticateAdmin();
+    req.authManager.authenticateAdmin(req.headers.authorization);
     next();
   } catch(err) {
     next(err);
