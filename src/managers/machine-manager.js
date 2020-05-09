@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const BadRequest = require('../errors/bad-request');
 
 
@@ -29,7 +31,14 @@ class MachineManager {
       .then(writeRes => writeRes.insertedId);
   }
 
-  deleteMachineByObjectId(_id) {}
+  deleteMachineByObjectId(_id) {
+    if (!_id) {
+      throw new BadRequest('`_id` is required.');
+    }
+    return this.machinesCollection.deleteOne({
+      _id: new ObjectId(_id),
+    });
+  }
 }
 
 module.exports = MachineManager;

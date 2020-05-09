@@ -87,4 +87,8 @@ describe('MachineManager', () => {
 
     it.todo('should throw `Conflict` on duplicate `machineId`');
   });
+
+  describe('deleteMachineByObjectId()', () => {
+    test.todo('cover all logic by tests');
+  });
 });
