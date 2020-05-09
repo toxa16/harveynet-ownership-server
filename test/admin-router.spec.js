@@ -20,6 +20,11 @@ const testMachines = [
   },
 ];
 
+// stub
+const authManager = {
+  authenticateAdmin: () => {},
+};
+
 
 describe('Admin Router "/admin/*"', () => {
   it('should respond 401 on `authManager` Unauthorized error', done => {
@@ -50,5 +55,25 @@ describe('Admin Router "/admin/*"', () => {
         .expect(200, testMachines)
         .end(done);
     });
+
+    it.todo('should respond with 500 on `getAllMachines()` error');
+  });
+
+  describe('POST /admin/machines', () => {
+    it('should respond with 201 after successfull machine creation', done => {
+      // stubs
+      const machineManager = {
+        addMachine: async () => {},
+      }
+      // SUT
+      const app = makeApp({ authManager, machineManager });
+      // test
+      supertest(app)
+        .post('/admin/machines')
+        .expect(201)
+        .end(done);
+    });
+
+    it.todo('should respond with 500 on `addMachine()` error');
   });
 });

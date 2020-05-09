@@ -13,6 +13,8 @@ class MachineManager {
   getAllMachines() {
     return this.machinesCollection.find().toArray();
   }
+
+  addMachine(userId, machineId) {}
 }
 
 module.exports = MachineManager;

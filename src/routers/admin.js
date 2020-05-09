@@ -24,4 +24,9 @@ router.get('/machines', async (req, res) => {
   res.json(machines);
 });
 
+// POST /machines
+router.post('/machines', (req, res) => {
+  res.status(201).end();
+});
+
 module.exports = router;
