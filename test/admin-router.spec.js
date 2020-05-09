@@ -114,16 +114,38 @@ describe('Admin Router "/admin/*"', () => {
 
   describe('DELETE /admin/machines?_id=', () => {
     test('successful deletion', done => {
-      // stub
+      const _id = 'test-object-id';
+      // stub & spy
+      const spy = jest.fn(async () => {});
       const machineManager = {
-        deleteMachineByObjectId: async () => {},
+        deleteMachineByObjectId: spy,
       }
       // SUT
       const app = makeApp({ authManager, machineManager });
       supertest(app)
         .delete('/admin/machines')
-        .query('_id', 'test-object-id')
+        .query({ _id })
         .expect(204)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(spy).toHaveBeenCalledWith(_id);
+          done();
+        });
+    });
+
+    it('should respond with 500 on `deleteMachineByObjectId()` error', done => {
+      // stub
+      const machineManager = {
+        deleteMachineByObjectId: async () => {
+          throw new Error();
+        },
+      }
+      // SUT
+      const app = makeApp({ authManager, machineManager });
+      // test
+      supertest(app)
+        .delete('/admin/machines')
+        .expect(500)
         .end(done);
     });
   });

@@ -40,8 +40,14 @@ router.post('/machines', async (req, res, next) => {
   }
 });
 
-router.delete('/machines', (req, res, next) => {
-  res.status(204).end();
+router.delete('/machines', async (req, res, next) => {
+  try {
+    const { _id } = req.query;
+    await req.machineManager.deleteMachineByObjectId(_id);
+    res.status(204).end();
+  } catch(err) {
+    next(err);
+  }
 });
 
 module.exports = router;

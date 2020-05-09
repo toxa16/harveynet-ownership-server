@@ -28,6 +28,8 @@ class MachineManager {
       .insertOne({ userId, machineId })
       .then(writeRes => writeRes.insertedId);
   }
+
+  deleteMachineByObjectId(_id) {}
 }
 
 module.exports = MachineManager;
