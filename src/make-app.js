@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const Unauthorized = require('./errors/unauthorized');
 const adminRouter = require('./routers/admin');
@@ -8,6 +9,7 @@ const adminRouter = require('./routers/admin');
 function makeApp({ authManager, machineManager }) {
   const app = express();
   app.use(cors());
+  app.use(bodyParser.json());
 
   // logging (dev only)
   app.use((req, res, next) => {

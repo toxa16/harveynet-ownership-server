@@ -31,7 +31,8 @@ router.get('/machines', async (req, res, next) => {
 // POST /machines
 router.post('/machines', async (req, res, next) => {
   try {
-    await req.machineManager.addMachine();
+    const { userId, machineId } = req.body;
+    await req.machineManager.addMachine(userId, machineId);
     res.status(201).end();
   } catch(err) {
     next(err);

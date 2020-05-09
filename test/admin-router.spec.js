@@ -71,18 +71,28 @@ describe('Admin Router "/admin/*"', () => {
   });
 
   describe('POST /admin/machines', () => {
-    it('should respond with 201 after successfull machine creation', done => {
+    test('successfull machine creation', done => {
+      // fixture
+      const userId = 'test-user';
+      const machineId = 'test-machine';
+      // spy
+      const spy = jest.fn(async () => {});
       // stub
       const machineManager = {
-        addMachine: async () => {},
+        addMachine: spy,
       }
       // SUT
       const app = makeApp({ authManager, machineManager });
       // test
       supertest(app)
         .post('/admin/machines')
+        .send({ userId, machineId })
         .expect(201)
-        .end(done);
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(spy).toHaveBeenCalledWith(userId, machineId);
+          done();
+        });
     });
 
     it('should respond with 500 on `addMachine()` error', done => {
