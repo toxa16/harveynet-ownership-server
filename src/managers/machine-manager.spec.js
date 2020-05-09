@@ -1,4 +1,5 @@
 const MachineManager = require('./machine-manager');
+const BadRequest = require('../errors/bad-request');
 
 
 // fixture
@@ -46,10 +47,12 @@ describe('MachineManager', () => {
   });
 
   describe('addMachine()', () => {
+    // fixture
+    const userId = 'test-user';
+    const machineId = 'test-machine';
+    const insertedId = { _id: 'test-object-id' };
+
     it('should call the collection `insertOne()` with doc', async () => {
-      const userId = 'test-user';
-      const machineId = 'test-machine';
-      const insertedId = { _id: 'test-object-id' };
       const spy = jest.fn(async () => ({ insertedId }));
       const machinesCollection = {
         insertOne: spy,
@@ -60,9 +63,6 @@ describe('MachineManager', () => {
     });
 
     it('should resolve with the `insertedId` object', async () => {
-      const userId = 'test-user';
-      const machineId = 'test-machine';
-      const insertedId = { _id: 'test-object-id' };
       const machinesCollection = {
         insertOne: async () => ({ insertedId }),
       };
@@ -71,7 +71,20 @@ describe('MachineManager', () => {
       expect(actual).toEqual(insertedId);
     });
 
-    it.todo('should throw `BadRequest` if `userId` is falsy');
-    it.todo('should throw `BadRequest` if `machineId` is falsy');
+    it('should throw `BadRequest` if `userId` is falsy', () => {
+      const machineManager = new MachineManager(machinesCollection);
+      expect(() => {
+        machineManager.addMachine({ machineId });
+      }).toThrow(BadRequest);
+    });
+
+    it('should throw `BadRequest` if `machineId` is falsy', () => {
+      const machineManager = new MachineManager(machinesCollection);
+      expect(() => {
+        machineManager.addMachine({ userId });
+      }).toThrow(BadRequest);
+    });
+
+    it.todo('should throw `Conflict` on duplicate `machineId`');
   });
 });
