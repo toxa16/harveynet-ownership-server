@@ -6,6 +6,10 @@ class AuthManager {
     this.auth0client = auth0client;
   }
 
+  authenticateAdmin(authHeader) {
+    //throw new Unauthorized();
+  }
+
   /**
    * Authenticates user by Bearer token from `Authorization` header.
    * @param {string} header request `Authorization` header
