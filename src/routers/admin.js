@@ -40,4 +40,8 @@ router.post('/machines', async (req, res, next) => {
   }
 });
 
+router.delete('/machines', (req, res, next) => {
+  res.status(204).end();
+});
+
 module.exports = router;

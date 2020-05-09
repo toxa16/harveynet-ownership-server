@@ -111,4 +111,20 @@ describe('Admin Router "/admin/*"', () => {
         .end(done);
     });
   });
+
+  describe('DELETE /admin/machines?_id=', () => {
+    test('successful deletion', done => {
+      // stub
+      const machineManager = {
+        deleteMachineByObjectId: async () => {},
+      }
+      // SUT
+      const app = makeApp({ authManager, machineManager });
+      supertest(app)
+        .delete('/admin/machines')
+        .query('_id', 'test-object-id')
+        .expect(204)
+        .end(done);
+    });
+  });
 });
