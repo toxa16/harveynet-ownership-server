@@ -19,8 +19,9 @@ router.get('/', (req, res) => {
 });
 
 // GET /machines
-router.get('/machines', (req, res) => {
-  res.end('GET /admin/machines endpoint');
+router.get('/machines', async (req, res) => {
+  const machines = await req.machineManager.getAllMachines();
+  res.json(machines);
 });
 
 module.exports = router;

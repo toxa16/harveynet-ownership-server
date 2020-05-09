@@ -12,21 +12,21 @@ class AuthManager {
   }
 
   /**
-   * Authenticates admin by Basic scheme.
+   * Authenticates admin by Basic authentication scheme.
    * Valid admin credentials are HARD-CODED.
    * @param {string} authHeader 
    */
   authenticateAdmin(authHeader) {
     if (!authHeader) {
-      throw new Unauthorized();
+      throw new Unauthorized('No Authorization header.');
     }
     const token = authHeader.split('Basic ')[1];
     if (!token) {
-      throw new Unauthorized();
+      throw new Unauthorized('Only Basic authentication scheme is supported.');
     }
     const credStr = Buffer.from(token, 'base64').toString('utf-8');
     if (credStr !== `${adminUsername}:${adminPassword}`) {
-      throw new Unauthorized();
+      throw new Unauthorized('Invalid admin credentials.');
     }
   }
 

@@ -9,6 +9,10 @@ class MachineManager {
     }
     return this.machinesCollection.find({ userId }).toArray();
   }
+
+  async getAllMachines() {
+    return [];
+  }
 }
 
 module.exports = MachineManager;
