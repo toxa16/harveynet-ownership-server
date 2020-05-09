@@ -24,7 +24,7 @@ const machinesCollection = {
 
 describe('MachineManager', () => {
   describe('getUserMachines()', () => {
-    // THIS TEST MAY BE INCORRECT
+    // THIS TEST MAY BE INCORRECT (the `find()` query parameter is not checked)
     it('should resolve with user machines from `machineCollection`', async () => {
       const machineManager = new MachineManager(machinesCollection);
       const actualMachines = await machineManager.getUserMachines(testUserId);

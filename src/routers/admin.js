@@ -25,8 +25,13 @@ router.get('/machines', async (req, res) => {
 });
 
 // POST /machines
-router.post('/machines', (req, res) => {
-  res.status(201).end();
+router.post('/machines', async (req, res, next) => {
+  try {
+    await req.machineManager.addMachine();
+    res.status(201).end();
+  } catch(err) {
+    next(err);
+  }
 });
 
 module.exports = router;

@@ -61,7 +61,7 @@ describe('Admin Router "/admin/*"', () => {
 
   describe('POST /admin/machines', () => {
     it('should respond with 201 after successfull machine creation', done => {
-      // stubs
+      // stub
       const machineManager = {
         addMachine: async () => {},
       }
@@ -74,6 +74,20 @@ describe('Admin Router "/admin/*"', () => {
         .end(done);
     });
 
-    it.todo('should respond with 500 on `addMachine()` error');
+    it('should respond with 500 on `addMachine()` error', done => {
+      // stub
+      const machineManager = {
+        addMachine: async () => {
+          throw new Error();
+        },
+      }
+      // SUT
+      const app = makeApp({ authManager, machineManager });
+      // test
+      supertest(app)
+        .post('/admin/machines')
+        .expect(500)
+        .end(done);
+    });
   });
 });
