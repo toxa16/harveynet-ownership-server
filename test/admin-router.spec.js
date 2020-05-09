@@ -39,11 +39,8 @@ describe('Admin Router "/admin/*"', () => {
   });
 
   describe('GET /admin/machines', () => {
-    it('should respond with all machines from `machineManager`', done => {
-      // stubs
-      const authManager = {
-        authenticateAdmin: () => {},
-      };
+    it('should respond with machines from `getAllMachines()`', done => {
+      // stub
       const machineManager = {
         getAllMachines: async () => testMachines,
       }
@@ -56,7 +53,21 @@ describe('Admin Router "/admin/*"', () => {
         .end(done);
     });
 
-    it.todo('should respond with 500 on `getAllMachines()` error');
+    it('should respond with 500 on `getAllMachines()` error', done => {
+      // stub
+      const machineManager = {
+        getAllMachines: async () => {
+          throw new Error();
+        },
+      }
+      // SUT
+      const app = makeApp({ authManager, machineManager });
+      // test
+      supertest(app)
+        .get('/admin/machines')
+        .expect(500)
+        .end(done);
+    });
   });
 
   describe('POST /admin/machines', () => {

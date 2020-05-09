@@ -19,9 +19,13 @@ router.get('/', (req, res) => {
 });
 
 // GET /machines
-router.get('/machines', async (req, res) => {
-  const machines = await req.machineManager.getAllMachines();
-  res.json(machines);
+router.get('/machines', async (req, res, next) => {
+  try {
+    const machines = await req.machineManager.getAllMachines();
+    res.json(machines);
+  } catch(err) {
+    next(err);
+  }
 });
 
 // POST /machines
