@@ -14,7 +14,11 @@ class MachineManager {
     return this.machinesCollection.find().toArray();
   }
 
-  addMachine(userId, machineId) {}
+  addMachine({ userId, machineId }) {
+    return this.machinesCollection
+      .insertOne({ userId, machineId })
+      .then(writeRes => writeRes.insertedId);
+  }
 }
 
 module.exports = MachineManager;
