@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+const BadRequest = require('./errors/bad-request');
 const Unauthorized = require('./errors/unauthorized');
 const adminRouter = require('./routers/admin');
 
@@ -61,7 +62,9 @@ function makeApp({ authManager, machineManager }) {
 
   // custom error handler
   app.use((err, req, res, next) => {
-    if (err instanceof Unauthorized) {
+    if (err instanceof BadRequest) {
+      res.status(400);
+    } else if (err instanceof Unauthorized) {
       res.status(401);
     }
     next(err);  // to default error handler
