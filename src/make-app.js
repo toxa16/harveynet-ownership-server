@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const Unauthorized = require('./errors/unauthorized');
+const adminRouter = require('./routers/admin');
 
 
 function makeApp({ authManager, machineManager }) {
@@ -15,6 +16,16 @@ function makeApp({ authManager, machineManager }) {
     }
     next();
   });
+
+  // setting dependencies as `req` properties
+  app.use((req, res, next) => {
+    req.authManager = authManager;
+    req.machineManager = machineManager;
+    next();
+  });
+
+  // admin router "/admin/*"
+  app.use('/admin', adminRouter);
 
 
   // GET /
