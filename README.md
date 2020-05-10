@@ -1,6 +1,8 @@
 # harveynet-ownership-server
 
-Ownership Server prototype version 0.0.1.
+Ownership Server prototype version 0.1.0.
+
+*Warning: This readme is DEPRECATED, valid for older version v0.0.1.*
 
 Currently no external Ownership Storage is used, the ownership data is **hardcoded**. Available data fixtures can be found in [test/fixtures](./test/fixtures).
 
