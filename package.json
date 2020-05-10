@@ -5,8 +5,8 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon ./src/index.js",
     "serve": "NODE_ENV=production node ./src/index.js",
-    "test:int": "jest --watch",
-    "test": "jest"
+    "test": "jest --watch",
+    "test:ci": "jest"
   },
   "dependencies": {
     "auth0": "^2.25.1",
