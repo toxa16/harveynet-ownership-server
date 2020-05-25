@@ -8,4 +8,6 @@ Ownership API specification (for v0.0.1) is published [here](https://app.swagger
 
 ## Environment variables
 
-- PORT (default: 3000)
+See file `.env.example`.
+
+You can copy contents of the `.env.example` into an `.env` file and assign corresponding values to the environment variables.
