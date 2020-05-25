@@ -1,6 +1,6 @@
 # harveynet-ownership-server
 
-Ownership Server prototype version 0.1.0.
+Ownership Server prototype version 0.1.1.
 
 *Warning: This readme is DEPRECATED, was valid for older version v0.0.1.*
 

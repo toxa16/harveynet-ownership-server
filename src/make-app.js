@@ -44,7 +44,7 @@ function makeApp({ authManager, machineManager }) {
 
   // GET /
   app.get('/', (req, res) => {
-    res.end('HarveyNet ownership server v0.1.0');
+    res.end('HarveyNet ownership server v0.1.1');
   });
 
 
