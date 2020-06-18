@@ -70,11 +70,33 @@ function makeApp({ authManager, machineManager }) {
     }
   });
 
+  app.post('/control-auth-check', (req, res) => {
+    const user_id = 'TEST_USER';  // HARDCODE, todo: extract `user_id` from access token
+    const { channel_name } = req.body;
+    pusher.get(
+      { path: `/channels/${channel_name}/users`, params: {} },
+      function(error, request, response) {
+        if (error) {
+          console.log(error);
+          const message = 'Pusher internal error.';
+          return res.status(500).json({ message });
+        }
+        if (response.statusCode === 200) {
+          var result = JSON.parse(response.body);
+          var users = result.users;
+          const me = users.find(x => x.id === user_id);
+          if (me) {
+            const message = 'Only one simultaneous control connection allowed.';
+            res.status(403).json({ message });
+          } else {
+            res.end();
+          }
+        }
+      }
+    );
+  });
 
   app.post('/pusher/auth', (req, res) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(req.method, req.url);
-    }
     const user_id = 'TEST_USER';  // HARDCODE, todo: extract `user_id` from access token
     const { socket_id, channel_name } = req.body;
     
