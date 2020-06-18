@@ -99,32 +99,9 @@ function makeApp({ authManager, machineManager }) {
   app.post('/pusher/auth', (req, res) => {
     const user_id = 'TEST_USER';  // HARDCODE, todo: extract `user_id` from access token
     const { socket_id, channel_name } = req.body;
-    
-    if (channel_name.match(/^presence\-control\-/)) {
-      pusher.get(
-        { path: `/channels/${channel_name}/users`, params: {} },
-        function(error, request, response) {
-          if(response.statusCode === 200) {
-            var result = JSON.parse(response.body);
-            var users = result.users;
-            
-            const me = users.find(x => x.id === user_id);
-            if (me) {
-              const message = 'Only one simultaneous control connection allowed.';
-              res.status(403).json({ message });
-            } else {
-              var presenceData = { user_id };
-              var auth = pusher.authenticate(socket_id, channel_name, presenceData);
-              res.send(auth);
-            }
-          }
-        }
-      );
-    } else {
-      var presenceData = { user_id };
-      var auth = pusher.authenticate(socket_id, channel_name, presenceData);
-      res.send(auth);
-    }
+    var presenceData = { user_id };
+    var auth = pusher.authenticate(socket_id, channel_name, presenceData);
+    res.send(auth);
   });
   
   app.post('/pusher/auth/machine', (req, res) => {
