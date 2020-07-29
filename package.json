@@ -9,7 +9,7 @@
     "test:ci": "jest"
   },
   "dependencies": {
-    "auth0": "^2.25.1",
+    "auth0": "^2.27.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
